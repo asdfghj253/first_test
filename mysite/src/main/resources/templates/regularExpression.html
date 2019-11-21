@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width " />
+    <!--
+    <script type="text/javascript" src="../assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+    <script type="text/javascript" src="../assets/layui/layui.js"></script>
+    <-->
+    <script type="text/javascript" th:src="@{/assets/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/vue.js}"></script>
+    <script type="text/javascript"th:src="@{/assets/layui/layui.js}"></script>
+    <title>正则表达式小工具</title>
+</head>
+<body>
+ <div style="width: 100%;margin: auto;text-align: center;" id="regularSelect">
+      <div style="margin: auto;width: 60%;border: 3px solid #cccccc;">
+      <span>表达式规则:</span>
+      <select id="myregularselect" onchange="selectOnchange()" style="width: 60%;height: 50px;">
+          <option disabled selected hidden>请选择你要得正则表达式</option>
+          <option v-for="v in selectItems" :value="v.theValue">{{v.theVal}}</option>
+      </select>
+      <p>表达式：{{selectedItemShow}}</p>
+          <p>输入具体值测试：<input id="testSelectregular" type="text"></input><button onclick="testSelectedRegular()">测试</button></p>
+          <p>结果：{{testselected}}</p>
+     </div>
+ </div>
+ <div style="width: 100%;margin: auto;text-align: center;" id="regularInput">
+     <div style="margin: auto;width: 60%;border: 3px solid #cccccc;">
+         <p>输入具体表达式：<input id="Inputregular" type="text"></input></p>
+         <p>输入具体值测试：<input id="testInputregular" type="text"></input><button onclick="testInputRegular()">测试</button></p>
+         <p>结果：{{testInput}}</p>
+     </div>
+ </div>
+ <div style="width: 100%;margin: auto;text-align: center;">
+     <div style="margin: auto;width: 60%;border: 3px solid #cccccc;">
+         <p style="float: left;width: 100%;"><span style="color: red;">$</span>&nbsp;&nbsp;:匹配输入字符串的结尾位置。如果设置了 RegExp 对象的 Multiline 属性，则 $ 也匹配 '\n' 或 '\r'。要匹配 $ 字符本身，请使用 \$。</p>
+         <p style="float: left;width: 100%;"><span style="color: red;">( )</span>&nbsp;&nbsp;:标记一个子表达式的开始和结束位置。子表达式可以获取供以后使用。要匹配这些字符，请使用 \( 和 \)。</p>
+         <p style="float: left;width: 100%;"><span style="color: red;">*</span>&nbsp;&nbsp;:匹配前面的子表达式零次或多次。要匹配 * 字符，请使用 \*。</p>
+         <p style="float: left;width: 100%;"><span style="color: red;">+</span>&nbsp;&nbsp;:匹配前面的子表达式一次或多次。要匹配 + 字符，请使用 \+。</p>
+         <p style="float: left;width: 100%;"><span style="color: red;">.</span>&nbsp;&nbsp;:匹配除换行符 \n 之外的任何单字符。要匹配 . ，请使用 \. 。</p>
+         <p style="float: left;width: 100%;"><span style="color: red;">[</span>&nbsp;&nbsp;:标记一个中括号表达式的开始。要匹配 [，请使用 \[。</p>
+         <p style="float: left;width: 100%;"><span style="color: red;">?</span>&nbsp;&nbsp;:匹配前面的子表达式零次或一次，或指明一个非贪婪限定符。要匹配 ? 字符，请使用 \?。</p>
+         <p style="float: left;width: 100%;"><span style="color: red;">\</span>&nbsp;&nbsp;:将下一个字符标记为或特殊字符、或原义字符、或向后引用、或八进制转义符。例如， 'n' 匹配字符 'n'。'\n' 匹配换行符。序列 '\\' 匹配 "\"，而 '\(' 则匹配 "("。</p>
+         <p style="float: left;width: 100%;"><span style="color: red;">^</span>&nbsp;&nbsp;:匹配输入字符串的开始位置，除非在方括号表达式中使用，此时它表示不接受该字符集合。要匹配 ^ 字符本身，请使用 \^。</p>
+         <p style="float: left;width: 100%;"><span style="color: red;">{</span>&nbsp;&nbsp;:标记限定符表达式的开始。要匹配 {，请使用 \{。</p>
+         <p style="float: left;width: 100%;"><span style="color: red;">|</span>&nbsp;&nbsp;:指明两项之间的一个选择。要匹配 |，请使用 \|。</p>
+         <p style="float: left;width: 100%;"><span style="color: red;">\d</span>&nbsp;&nbsp;:匹配一个数字字符。等价于 [0-9]。</p>
+         <p style="float: left;width: 100%;"><span style="color: red;">\s</span>&nbsp;&nbsp;:匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。</p>
+         <p style="float: left;width: 100%;"><span style="color: red;">\w</span>&nbsp;&nbsp;:匹配字母、数字、下划线。等价于'[A-Za-z0-9_]'。</p>
+         <p style="float: left;width: 100%;"><span style="color: red;">\W</span>&nbsp;&nbsp;:匹配非字母、数字、下划线。等价于 '[^A-Za-z0-9_]'。</p>
+     </div>
+ </div>
+ <div>
+
+ </div>
+</body>
+<script>
+    layui.use('layer', function(){
+        var $ = layui.jquery;
+        var layer = layui.layer;
+    });
+    var regularList=new Array();
+    function createRegular(SelectValue,SelectVal,RegularText){
+        var obj=new Object();
+        obj.theValue=SelectValue;
+        obj.theVal=SelectVal;
+        obj.theRegular=RegularText;
+        return obj;
+    };
+    function testSelectedRegular(){
+        if($("#testSelectregular").val()!=""){
+            var str=$("#testSelectregular").val();
+            //var reg=app.selectedItem.replace("\"","");
+            //console.log("正则表达式:"+reg);
+            app.testselected=(app.selectedItem).test(str);//str.match(app.selectedItem);
+        };
+    };
+    function testInputRegular(){
+        if($("#Inputregular").val()!=""){
+            var Inputreg=$("#Inputregular").val();
+            var reg1=new RegExp(Inputreg);
+            var str=$("#testInputregular").val();
+            app1.testInput=reg1.test(str);//str.match(app.selectedItem);
+        };
+    };
+    //alert(createRegular("number","纯数字（包含空）","^[0-9]*$").theValue);
+    //regularList.push(createRegular("number","纯数字（包含空）","^[0-9]*$"));
+    //regularList.push(createRegular("number1","纯数字（包含空）1","^[0-9]*$"));
+    /*console.log("regularList:"+regularList);
+    for(var regularOne in regularList){
+        console.log("numb:"+regularOne);
+        //alert(regularList[regularOne].theValue);
+        console.log("theValue:"+regularList[regularOne].theValue);
+        console.log("theVal:"+regularList[regularOne].theVal);
+        console.log("theRegular:"+regularList[regularOne].theRegular);
+    }*/
+    //var reg1=new RegExp("^[0-9]*$","g");
+    $(document).ready(function(){
+        regularList.push(createRegular("regular1","非负整数",new RegExp("^[0-9]*$")));
+        regularList.push(createRegular("regular2","带1-2位小数的正数或负数",new RegExp("^(\\-)?\\d+(\\.\\d{1,2})$")));
+        regularList.push(createRegular("regular3","正数、负数、和小数",new RegExp("^(\\-|\\+)?\\d+(\\.\\d+)?$")));
+        regularList.push(createRegular("regular4","零和非零开头的数字",new RegExp("^(0|[1-9][0-9]*)$")));
+        regularList.push(createRegular("regular5","中文",new RegExp("^[\\u4e00-\\u9fa5]{0,}$")));
+        regularList.push(createRegular("regular6","英文和数字",new RegExp("^[A-Za-z0-9]+$")));
+        regularList.push(createRegular("regular7","大写字母",new RegExp("^[A-Z]+$")));
+        regularList.push(createRegular("regular8","小写字母",new RegExp("^[a-z]+$")));
+        regularList.push(createRegular("regular9","日期格式xxxx-xx-xx",new RegExp("^(\\d{4})(-)(\\d{2})(-)(\\d{2})$")));
+        regularList.push(createRegular("regular10","Email地址",new RegExp("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,})$")));
+        regularList.push(createRegular("regular11","长度为3-20的所有字符",new RegExp("^.{3,20}$")));
+        regularList.push(createRegular("regular12","强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)",new RegExp("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,10}$")));
+        regularList.push(createRegular("regular13","强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)",new RegExp("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$")));
+        regularList.push(createRegular("regular14","IP地址",new RegExp("((?:(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d))")));
+        app.selectItems=regularList;
+    });
+    function selectOnchange(){
+        //app.selectedItem=$('#myregularselect option:selected').val();
+        for(var regularOne in regularList){
+            if(regularList[regularOne].theValue==$('#myregularselect option:selected').val()){
+                app.selectedItem=regularList[regularOne].theRegular;
+                var show=regularList[regularOne].theRegular.toString();
+                app.selectedItemShow=show.substring(1,show.length-1);
+                //app.selectedItemShow=app.selectedItemShow.Replace("\/","");
+            }
+        }
+    }
+    //app.testselected.toString();
+    //console.log("选择框:"+$("#regularSelect").value);
+    var app=new Vue({
+       el:'#regularSelect',
+       data:{
+            selectItems:null,
+           selectedItem:null,
+           testselected:null,
+           selectedItemShow:null
+       },
+    });
+    var app1=new Vue({
+        el:'#regularInput',
+        data:{
+            InputItem:null,
+            testInput:null
+        },
+    });
+</script>
+</html>

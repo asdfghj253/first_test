@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myperson.dao.UserMainDao">
+    <resultMap id="userResultMap" type="com.myperson.pojo.UserMain">
+        <id column="user_id" jdbcType="BIGINT" property="userID"/>
+        <result column="username" jdbcType="VARCHAR" property="userName"/>
+        <result column="net_name" jdbcType="VARCHAR" property="name"/>
+        <result column="password" jdbcType="VARCHAR" property="passWord"/>
+        <result column="user_enable" jdbcType="INTEGER" property="userEnable"/>
+    </resultMap>
+    <!--图片数组-->
+    <resultMap id="DepartResultMap" type="java.lang.String" >
+        <result column="depart" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="BASE_TABLE">
+        sardine_user a
+    </sql>
+    <sql id="mainSql">
+        SELECT distinct a.depart  FROM sardine_user a
+    </sql>
+    <sql id="BASE_COLUMN">
+        a.*
+    </sql>
+    <select id="findUserByUserName" resultMap="userResultMap" parameterType="String">
+        SELECT
+          <include refid="BASE_COLUMN"/>
+        FROM
+          <include refid="BASE_TABLE"/>
+        <where>
+            a.username = #{userName}
+        </where>
+    </select>
+
+
+</mapper>

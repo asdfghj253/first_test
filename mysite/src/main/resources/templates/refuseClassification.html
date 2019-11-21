@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width " />
+    <!--
+    <script type="text/javascript" src="../assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+    <script type="text/javascript" src="../assets/layui/layui.js"></script>
+    <-->
+    <script type="text/javascript" th:src="@{/assets/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/vue.js}"></script>
+    <script type="text/javascript"th:src="@{/assets/layui/layui.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/layui/css/layui.css}">
+    <title>垃圾分类</title>
+</head>
+<body>
+<h1 style="margin: auto;text-align: center">垃圾分类</h1>
+<p style="font-size: large;color: #2F4056;margin: auto;text-align: center">吃剩的外卖属于湿垃圾，但是包装的餐盒属于干垃圾，如果洗干净了就属于可回收物</p>
+<!--
+<img src="../../webapp/classification.jpg">
+-->
+<div style="margin: auto;text-align: center">
+<img src="http://img61.86pla.com/9/20170302/636240622701975956810.png">
+</div>
+ <div style="width: 40%;margin: auto;text-align: center;" id="regularSelect">
+     <ul class="layui-timeline">
+         <li class="layui-timeline-item">
+             <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+             <div class="layui-timeline-content layui-text" style="color: green;text-align: left;">
+                 <h3 class="layui-timeline-title" style="color: green;">常见厨余垃圾（湿垃圾）</h3>
+                 <ul>
+                     <li>剩菜剩饭、骨头、菜根菜叶、果皮等食品类废物</li>
+                     <li>残枝落叶、家里开败的鲜花</li>
+                     <li>废弃食用油、花生壳、瓜子壳</li>
+                 </ul>
+             </div>
+         </li>
+         <li class="layui-timeline-item">
+             <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+             <div class="layui-timeline-content layui-text"  style="color: blue;text-align: left;">
+                 <h3 class="layui-timeline-title" style="color: blue;">常见可回收垃圾</h3>
+                 <ul>
+                     <li>废纸：主要包括报纸、期刊、图书、各种包装纸等</li>
+                     <li>塑料：各种塑料袋、塑料泡沫、塑料包装、一次性塑料餐盒餐具、硬塑料、塑料牙刷、塑料杯子、矿泉水瓶等</li>
+                     <li>玻璃：主要包括各种玻璃瓶、碎玻璃片、镜子、暖瓶等。</li>
+                     <li>金属物：主要包括易拉罐、罐头盒等。</li>
+                     <li>布料：主要包括废弃衣服、桌布、洗脸巾、书包、鞋等。</li>
+                 </ul>
+             </div>
+         </li>
+         <li class="layui-timeline-item">
+             <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+             <div class="layui-timeline-content layui-text" style="color: #72767b;text-align: left;">
+                 <h3 class="layui-timeline-title" style="color: #72767b;">常见其它垃圾（干垃圾）</h3>
+                 <ul>
+                     <li>卫生纸：厕纸、卫生纸遇水即溶，不算可回收的“纸张”，类似的还有烟盒等。</li>
+                     <li>餐厨垃圾装袋：常用的塑料袋</li>
+                     <li>尘土：在垃圾分类中，尘土属于“其它垃圾”</li>
+                 </ul>
+             </div>
+         </li>
+         <li class="layui-timeline-item">
+             <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+             <div class="layui-timeline-content layui-text"  style="color: red;text-align: left;">
+                 <h3 class="layui-timeline-title" style="color: red;">常见有害垃圾</h3>
+                 <ul>
+                     <li>电池、荧光灯管、灯泡</li>
+                     <li>水银温度计、油漆桶</li>
+                     <li>过期药品、过期化妆品</li>
+                     <li>水银温度计、油漆桶</li>
+                 </ul>
+             </div>
+         </li>
+         <li class="layui-timeline-item">
+             <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+             <div class="layui-timeline-content layui-text" style="color: red;text-align: left;">
+                 <h3 class="layui-timeline-title">结束</h3>
+             </div>
+         </li>
+     </ul>
+     <div class="layui-collapse">
+         <div class="layui-colla-item">
+             <h2 class="layui-colla-title" style="color: green;text-align: left;">厨余垃圾（湿垃圾)</h2>
+             <div class="layui-colla-content layui-show" style="color: green;text-align: left;">易腐垃圾，如食材废弃料、剩饭剩菜、过期食品、水果皮、干果垃圾，废弃植物、中药残渣等生活废弃物品。</div>
+         </div>
+         <div class="layui-colla-item">
+             <h2 class="layui-colla-title" style="color: blue;text-align: left;">可回收垃圾</h2>
+             <div class="layui-colla-content layui-show" style="color: blue;text-align: left;">废纸、废塑料、废玻璃制品、废金属、废织物等适宜回收，并且可以回收重复利用的生活废弃物。</div>
+         </div>
+         <div class="layui-colla-item">
+             <h2 class="layui-colla-title" style="color: #72767b;text-align: left;">其它垃圾（干垃圾）</h2>
+             <div class="layui-colla-content layui-show" style="color: #72767b;text-align: left;">就是生活中的其它垃圾，并且不属于“湿垃圾”、“有害垃圾”、“可回收垃圾”的垃圾分类，也叫其它垃圾。</div>
+         </div>
+         <div class="layui-colla-item">
+             <h2 class="layui-colla-title" style="color: red;text-align: left;">有害垃圾</h2>
+             <div class="layui-colla-content layui-show" style="color: red;text-align: left;">废电池、费灯泡灯管、废药品、废油漆，以及有损人身体健康或者对环境直接或者间接会造成污染，有潜在危害的生活用品。</div>
+         </div>
+     </div>
+ </div>
+
+
+ </div>
+</body>
+<script>
+    layui.use('layer', function(){
+        var $ = layui.jquery;
+        var layer = layui.layer;
+    });
+    layui.use('element', function(){
+        var element = layui.element;
+
+    });
+</script>
+</html>

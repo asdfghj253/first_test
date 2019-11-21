@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myperson.dao.MenuDao">
+    <resultMap id="MenuResultMap" type="com.myperson.pojo.Menu">
+        <id column="fid" jdbcType="BIGINT" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <!-- 集合中的property须为oftype定义的pojo对象的属性-->
+        <collection property="pageLinks" ofType="com.myperson.pojo.PageLink">
+            <id column="sid" jdbcType="BIGINT" property="id" />
+            <result column="page_title" jdbcType="VARCHAR" property="pageTitle" />
+            <result column="link_addr" jdbcType="VARCHAR" property="linkAddr" />
+            <result column="role_message" jdbcType="VARCHAR" property="roleMsg" />
+            <result column="icon" jdbcType="VARCHAR" property="icon" />
+        </collection>
+    </resultMap>
+    <!--
+    <select id="selectAllByRoleName" parameterType="java.util.List" resultMap="MenuResultMap">
+        SELECT  a.fid,a.title,a.role_name,b.sid,b.page_title,b.link,b.role_msg,b.icon
+        FROM menu_first a JOIN menu_second b ON a.fid = b.fid
+        <where>
+            1=1
+            <if test="list !=null and list.size>0">
+                AND
+                <foreach collection="list" item="item" index="index" separator="OR">
+                    a.role_name = #{item.roleName} AND  b.role_msg = #{item.roleName}
+                </foreach>
+            </if>
+         </where>
+    </select>
+    -->
+    <select id="selectAllByRoleName" parameterType="java.util.List" resultMap="MenuResultMap">
+        SELECT  a.fid,a.title,a.role_name,b.id,b.page_title,b.link_addr,b.role_message,b.icon
+        FROM tbl_first_menu a JOIN tbl_page_link b ON a.fid = b.fid
+        <where>
+            1=1
+            <!--<if test="_Parameter !=null and _Parameter !=''">-->
+            <if test="list !=null and list.size>0">
+                AND
+                <foreach collection="list" item="item" index="index" separator="OR">
+                    a.role_name = #{item.roleName} AND  b.role_message = #{item.roleName}
+                </foreach>
+            </if>
+            <!--</if>-->
+        </where>
+    </select>
+</mapper>

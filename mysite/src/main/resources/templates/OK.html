@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <!--
+    <script type="text/javascript"th:src="@{/assets/mdeditor/editormd.min.js}"></script>
+    <script type="text/javascript"th:src="@{/assets/js/jquery.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/mdeditor/css/editormd.css}">
+    -->
+    <script type="text/javascript" th:src="@{/assets/wangEditor/release/wangEditor.min.js}"></script>
+    <!--
+        <link rel="stylesheet" href="https://unpkg.com/mditor@1.0.5/dist/css/mditor.min.css" />
+    <script src="https://unpkg.com/mditor@1.0.5/dist/js/mditor.min.js"></script>
+    -->
+    <title>OK</title>
+</head>
+<body>
+<div id="editor">
+    <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+    <button>保存</button>
+</div>
+</body>
+<script type="text/javascript">
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    // 或者 var editor = new E( document.getElementById('editor') )
+    editor.create()
+</script>
+</html>
